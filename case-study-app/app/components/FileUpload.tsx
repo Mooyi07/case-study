@@ -27,7 +27,27 @@ export default function FileUpload() {
         if (error) {
           setMessage(`Error: ${error.message}`)
         } else {
-          setMessage('Data uploaded successfully!')
+          setMessage('Data uploaded successfully! Generating report...')
+
+          // 🔄 Trigger report generation API
+          try {
+            const res = await fetch('/api/generate-report', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ table: 'test' }), // or your table name
+            })
+
+            const result = await res.json()
+            if (res.ok) {
+              setMessage(
+                `Report generated! Rows: ${result.rowCount}, Unique Names: ${result.uniqueNames}`
+              )
+            } else {
+              setMessage(`Report error: ${result.error}`)
+            }
+          } catch (err: any) {
+            setMessage(`Failed to generate report: ${err.message}`)
+          }
         }
       },
     })
