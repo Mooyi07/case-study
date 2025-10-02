@@ -1,36 +1,103 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📊 Case Study App – CSV Upload & AI Insight 🚀
 
-## Getting Started
+This project is a **Next.js + Supabase + Recharts** dashboard that allows you to:
 
-First, run the development server:
+- Upload CSV files
+- Parse and clean the data with PapaParse
+- Store data in Supabase
+- Display the uploaded records in a styled table
+- Generate insights using AI (via `/api/generate-insight`)
+- Visualize name frequencies with interactive bar charts
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## 🛠️ Tech Stack
+
+- **Next.js (App Router)** – Frontend framework
+- **Supabase** – Database & authentication
+- **PapaParse** – CSV parsing
+- **Recharts** – Data visualization
+- **Tailwind CSS** – UI styling
+
+---
+
+## ⚙️ Setup & Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/case-study-app.git
+   cd case-study-app
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+
+3. **Set up environment variables**
+   Create a `.env.local` file in the project root with your Supabase credentials:
+   ```env
+   NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+   ```
+
+4. **Run the development server**
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
+
+   Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+---
+
+## 📂 Project Structure
+
+```
+app/
+  components/
+    FileUpload.tsx     # Handles CSV upload, parsing, charting, insights
+  page.tsx             # Dashboard layout (data display + upload panel)
+  api/
+    generate-insight/  # AI insight API route
+lib/
+  supabaseClient.ts    # Supabase client config
+public/
+  ...
+README.md              # You're here
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🖼️ Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Dashboard Layout:** Split into two halves
+  - Left: Database records + report
+  - Right: File upload & AI insights
+- **Table View:** Displays `id` and `name` columns from CSV
+- **Bar Chart:** Frequency of names (using Recharts)
+- **Styled File Input:** Custom file picker with Tailwind
+- **AI Insight:** Summarizes uploaded data
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🚀 Deployment
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+This app works out-of-the-box with **Vercel**.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm run build
+npm run start
+```
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## ✅ To-Do / Future Improvements
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Add support for multiple CSV schemas
+- Add authentication (Supabase Auth)
+- Export insights to PDF
+- Improve AI insight with deeper analytics
