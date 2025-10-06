@@ -1,11 +1,16 @@
 'use client'
 import { useState } from 'react'
+import { TypeAnimation } from 'react-type-animation';
+
+// Locally declare Wrapper type as per react-type-animation's definition
+type Wrapper = 'p' | 'div' | 'span' | 'strong' | 'a' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'b';
+
 import Papa from 'papaparse'
 import { supabase } from '@/lib/supabaseClient'
 import {
   BarChart,
   Bar,
-  XAxis,
+  XAxis,  
   YAxis,
   Tooltip,
   ResponsiveContainer,
@@ -133,29 +138,21 @@ export default function FileUpload() {
         </div>
       )}
 
-      {Object.keys(frequencies).length > 0 && (
-        <div className="p-4 border-4 border-yellow-400 rounded-md bg-yellow-50 shadow-lg">
-          <h3 className="font-semibold mb-2 text-yellow-800">Name Frequency Chart</h3>
-          <div className="w-full h-64">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={chartData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis allowDecimals={false} />
-                <Tooltip />
-                <Bar dataKey="count" fill="#f59e0b" />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-      )}
+
 
       {insight && (
         <div className="p-4 border-4 border-yellow-400 rounded-md bg-yellow-50 shadow-lg">
           <h3 className="font-semibold mb-2 text-yellow-800">AI Insight</h3>
-          <pre className="whitespace-pre-wrap text-gray-800">{insight}</pre>
+          <TypeAnimation
+            sequence={[insight, 500]} // Type the insight, then pause
+            wrapper={"pre" as Wrapper}
+            cursor={true}
+            repeat={0} // Don't repeat
+            className="whitespace-pre-wrap text-gray-800"
+          />
         </div>
       )}
+
     </div>
   )
 }

@@ -16,6 +16,7 @@
     "papaparse": "^5.5.3",
     "react": "19.1.0",
     "react-dom": "19.1.0",
+    "react-type-animation": "^3.2.0",
     "recharts": "^3.2.1",
     "resend": "^6.1.1"
   },
