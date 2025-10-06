@@ -2,15 +2,14 @@
 import { useState } from 'react'
 import { TypeAnimation } from 'react-type-animation';
 
-// Locally declare Wrapper type as per react-type-animation's definition
+// Define Wrapper type locally since it's not exported by the module
 type Wrapper = 'p' | 'div' | 'span' | 'strong' | 'a' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'b';
-
 import Papa from 'papaparse'
 import { supabase } from '@/lib/supabaseClient'
 import {
   BarChart,
   Bar,
-  XAxis,  
+  XAxis,
   YAxis,
   Tooltip,
   ResponsiveContainer,
@@ -45,10 +44,9 @@ export default function FileUpload() {
       header: true,
       skipEmptyLines: true,
       complete: async (results) => {
-        const cleanedData: CsvRow[] = results.data.map((row, index) => ({
-          id: row.id ?? index + 1,
+        const cleanedData: CsvRow[] = results.data.map((row) => ({
           name: row.name?.trim() || '',
-        }))
+        })) 
 
         // Insert into Supabase
         const { error } = await supabase.from('test').insert(cleanedData)
@@ -70,6 +68,22 @@ export default function FileUpload() {
         const uniqueNames = Object.keys(nameCounts).length
         setMessage(`Data uploaded! Rows: ${rowCount}, Unique Names: ${uniqueNames}. Generating AI insight...`)
 
+        try {
+          const reportRes = await fetch('/api/generate-report', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ table: 'test' }),
+          })
+          const reportResult = await reportRes.json()
+          if (!reportRes.ok) {
+            setMessage(`Upload succeeded but report generation failed: ${reportResult.error}`)
+            return
+          }
+          setMessage(`Upload and report generation succeeded! Rows: ${reportResult.rowCount}, Unique Names: ${reportResult.uniqueNames}. Generating AI insight...`)
+        } catch (err: any) {
+          setMessage(`Upload succeeded but report generation failed: ${err.message}`)
+          return
+        }
         // Call AI insight API
         try {
           const aiRes = await fetch('/api/generate-insight', {
@@ -144,10 +158,11 @@ export default function FileUpload() {
         <div className="p-4 border-4 border-yellow-400 rounded-md bg-yellow-50 shadow-lg">
           <h3 className="font-semibold mb-2 text-yellow-800">AI Insight</h3>
           <TypeAnimation
-            sequence={[insight, 500]} // Type the insight, then pause
+            sequence={[insight, 1000]} // Type the insight, then pause
             wrapper={"pre" as Wrapper}
             cursor={true}
             repeat={0} // Don't repeat
+            speed={50}
             className="whitespace-pre-wrap text-gray-800"
           />
         </div>
