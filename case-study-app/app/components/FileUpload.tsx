@@ -141,8 +141,8 @@ export default function FileUpload() {
               </tr>
             </thead>
             <tbody>
-              {dataRows.map((row) => (
-                <tr key={row.id} className="bg-yellow-50">
+              {dataRows.map((row, index) => (
+                <tr key={row.id || row.name || index} className="bg-yellow-50">
                   <td className="border px-4 py-2">{row.id}</td>
                   <td className="border px-4 py-2">{row.name}</td>
                 </tr>
@@ -162,7 +162,7 @@ export default function FileUpload() {
             wrapper={"pre" as Wrapper}
             cursor={true}
             repeat={0} // Don't repeat
-            speed={50}
+            speed={25}
             className="whitespace-pre-wrap text-gray-800"
           />
         </div>
